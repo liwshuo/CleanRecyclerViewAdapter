@@ -1,11 +1,40 @@
 apply plugin: 'java-library'
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'clean_adapter_compiler'
+
+    publishedGroupId = 'com.baymax.clean_adapter'
+    libraryName = 'clean_adapter'
+    artifact = 'clean_adapter_compiler'
+
+    libraryDescription = 'annotation compiler for clean_adapter'
+
+    siteUrl = 'https://github.com/liwshuo/CleanRecyclerViewAdapter'
+    gitUrl = 'https://github.com/liwshuo/CleanRecyclerViewAdapter.git'
+
+    libraryVersion = rootProject.ext.version
+
+    developerId = 'baymax'
+    developerName = 'lishuo'
+    developerEmail = 'liwshuo@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.google.auto.service:auto-service:1.0-rc4'
     implementation 'com.squareup:javapoet:1.9.0'
-    implementation project(':clean_adapter_annotation')
+    implementation 'com.baymax.clean_adapter:clean_adapter_annotation:0.0.3'
 }
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
+
+apply from: '../install.gradle'
+apply from: '../bintray.gradle'
+
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
