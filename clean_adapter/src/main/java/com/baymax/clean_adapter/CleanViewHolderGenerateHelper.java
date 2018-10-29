@@ -17,7 +17,7 @@ import java.util.Map;
  * 为了减少Adapter中的代码，减少代码的耦合性，将各自的ViewHolder的创建放在相应的{@link IViewHolderFactory}中，分散管理。
  * 由于RecyclerView中需要通过itemType来生成不同的ViewHolder，本类会负责itemType的生成以及找到相应的factory来创建ViewHolder
  * <p>
- * 所有{@link com.yidian.yd_annotations.viewholder.ViewHolderFactory}注解的类会
+ * 所有{@link ViewHolderFactory}注解的类会
  * 通过注解处理器将相同类型category的ViewHolderFactory的实例放入到同一个List中，
  * 在初始化本类的时候通过构造函数将该List传入。
  * <p>
@@ -83,13 +83,14 @@ public class CleanViewHolderGenerateHelper<ExtraData> implements IViewHolderGene
         if (viewHolderClass == DummyCleanViewHolder.class) {
             return DummyCleanViewHolder.viewType;
         }
-        if (viewHolderClassItemTypeMap.get(viewHolderClass) == null) {
+        Integer itemType = viewHolderClassItemTypeMap.get(viewHolderClass);
+        if (itemType == null) {
             if (TerraModule.DEBUG) {
                 throw new NullPointerException("please check if " + viewHolderClass + " class is added in its factory's getViewHolderList Method");
             }
             return DummyCleanViewHolder.viewType;
         }
-        return viewHolderClassItemTypeMap.get(viewHolderClass);
+        return itemType;
     }
 
     @Override
@@ -101,17 +102,6 @@ public class CleanViewHolderGenerateHelper<ExtraData> implements IViewHolderGene
         return itemTypeViewHolderFactoryMap.get(itemType).create(parent, viewHolderClass, extraData);
     }
 
-    public class DummyCleanViewHolder extends BaseCleanViewHolder<Object> {
-        public static final int viewType = -1;
 
-        public DummyCleanViewHolder(ViewGroup parent) {
-            super(parent, R.layout.dummy_view_holder);
-        }
-
-        @Override
-        public void onBindViewHolder(Object card) {
-
-        }
-    }
 
 }

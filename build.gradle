@@ -2,7 +2,7 @@
 
 buildscript {
 
-    ext.version = '0.0.4'
+    ext.version = '0.0.7'
 
     repositories {
         google()

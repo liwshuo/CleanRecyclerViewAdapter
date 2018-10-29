@@ -29,4 +29,7 @@ dependencies {
     implementation "com.baymax.clean_adapter:clean_adapter:${rootProject.ext.version}"
     implementation "com.baymax.clean_adapter:clean_adapter_annotation:${rootProject.ext.version}"
     annotationProcessor "com.baymax.clean_adapter:clean_adapter_compiler:${rootProject.ext.version}"
+//    implementation project(':clean_adapter')
+//    implementation project(':clean_adapter_annotation')
+//    annotationProcessor project(':clean_adapter_compiler')
 }
