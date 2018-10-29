@@ -1,0 +1,1 @@
+include ':app', ':clean_adapter', ':clean_adapter_compiler', ':clean_adapter_annotation'
