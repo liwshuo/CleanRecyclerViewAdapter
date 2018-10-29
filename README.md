@@ -3,7 +3,7 @@ It is easy for you to show many different items in recyclerview。You will not h
 
 ## 前言
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
-![JCenter](https://img.shields.io/badge/%20JCenter%20-1.1.0-5bc0de.svg)
+![JCenter](https://img.shields.io/badge/%20JCenter%20-0.0.3-5bc0de.svg)
 
 首先，我想先感谢下[MultiType](https://github.com/drakeet/MultiType)这个开源项目，我的部分灵感来源于此。
 
