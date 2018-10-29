@@ -1,7 +1,9 @@
 # CleanRecyclerViewAdapter
+---
 It is easy for you to show many different items in recyclerview。You will not have to write many viewholders in recyclerview adapter, and declare many viewtypes, and try to create and bind them. You only need to write a viewholder and its factory with annotation. Then, everything is done.
 
 ## 前言
+---
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 ![JCenter](https://img.shields.io/badge/%20JCenter%20-1.1.0-5bc0de.svg)
 
@@ -14,6 +16,7 @@ It is easy for you to show many different items in recyclerview。You will not h
 在设计时，考虑到对现有代码的改动成本，目前大多数情况下，只需要让现有的viewHolder改自继承BaseCleanViewHolder，并创建与数据类型一一对应的ViewHolderFactory即可。
 
 ## 如何引用
+---
 在项目的build.gradle文件中的dependicies中添加以下依赖。
 
 ```groovy
@@ -23,8 +26,10 @@ annotationProcessor 'com.baymax.clean_adapter:clean_adapter_compiler:0.0.3'
 ```
 
 ## 如何使用
+---
 
 ### 创建ViewHolder
+---
 
 所有的ViewHolder都需要继承自BaseCleanViewHolder，并实现onBindViewHolder方法。
 
@@ -78,6 +83,7 @@ BaseCleanViewHolder中还提供了多个便利的方法可以调用。
 我们可以保证onBindViewHolder传入的参数，就是范型所指定的数据类型，也可以保证这个参数不为空，所以你可以放心地使用。
 
 ### 创建ViewHolderFactory
+---
 
 ViewHolderFactory需要实现IViewHolderFactory接口。
 
@@ -211,6 +217,7 @@ public final class FoodMaterialViewHolderFactoryListCreator {
 
 
 ### 创建ViewHolderGenerateHelper
+---
 
 在clean_adapter中，有一个名为CleanViewHolderGenerateHelper的类，该类的构造函数接收ViewHolderFactory的List，即我们在上一步编译之后得到的ViewHolderFactoryListCreator静态方法返回的结果。
 
@@ -243,6 +250,7 @@ public class FoodMaterialViewHolderGenerateHelper implements IViewHolderGenerate
 
 
 ### 创建Adapter
+---
 
 我们提供了一个基类BaseCleanAdapter，如果没有什么特别的需求，那么你的Adapter实际上很简单，继承BaseCleanAdapter，指定范型即可，没有别的需要做的了。
 
@@ -257,6 +265,7 @@ public class MarketAdapter extends BaseCleanAdapter<Object, MarketInfo> {
 ```
 
 ### 展示列表
+---
 
 好了，下面可以使用我们的Adapter来展示数据了。只需要给Adapter传入我们之前创建的对应的ViewHolderGenerateHelper即可。
 
@@ -271,10 +280,11 @@ marketAdapter.updateData(createMarketData(), null);
 ```
 
 ### ExtraData
+---
 在前面的介绍中，可以看到有一个ExtraData的范型。
 
 平时在我们的业务开发中，可能会遇到一些需要在ViewHolder中访问上级数据的情况，比如Avtivity、Fragment中的数据，仅仅通过onBindViewHolder传入的参数是不够的。那么可以定义一个数据结构，将ViewHolder中可能需要的数据封装进去，通过ViewHolder的构造函数传入。
 
 ## 总结
+---
 使用本项目，可以比较方便地从现有的代码进行切换，可以方便地对不同业务类型的列表展示元素进行管理，可以方便地在多个列表中复用ViewHolder，可以方便地增删ViewHolder，减少代码耦合。
-
