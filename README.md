@@ -1,6 +1,6 @@
 # CleanRecyclerViewAdapter
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
-![JCenter](https://img.shields.io/badge/%20JCenter%20-0.0.3-5bc0de.svg)
+![JCenter](https://img.shields.io/badge/%20JCenter%20-0.0.4-5bc0de.svg)
 
 It is easy for you to show many different items in recyclerview。You will not have to write many viewholders in recyclerview adapter, and declare many viewtypes, and try to create and bind them. You only need to write a viewholder and its factory with annotation. Then, everything is done.
 
@@ -17,9 +17,9 @@ It is easy for you to show many different items in recyclerview。You will not h
 在项目的build.gradle文件中的dependicies中添加以下依赖。
 
 ```groovy
-implementation 'com.baymax.clean_adapter:clean_adapter:0.0.3'
-implementation 'com.baymax.clean_adapter:clean_adapter_annotation:0.0.3'
-annotationProcessor 'com.baymax.clean_adapter:clean_adapter_compiler:0.0.3'
+implementation 'com.baymax.clean_adapter:clean_adapter:0.0.4'
+implementation 'com.baymax.clean_adapter:clean_adapter_annotation:0.0.4'
+annotationProcessor 'com.baymax.clean_adapter:clean_adapter_compiler:0.0.4'
 ```
 
 ## 如何使用
