@@ -1,10 +1,10 @@
 # CleanRecyclerViewAdapter
-It is easy for you to show many different items in recyclerview。You will not have to write many viewholders in recyclerview adapter, and declare many viewtypes, and try to create and bind them. You only need to write a viewholder and its factory with annotation. Then, everything is done.
-
-## 前言
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 ![JCenter](https://img.shields.io/badge/%20JCenter%20-0.0.3-5bc0de.svg)
 
+It is easy for you to show many different items in recyclerview。You will not have to write many viewholders in recyclerview adapter, and declare many viewtypes, and try to create and bind them. You only need to write a viewholder and its factory with annotation. Then, everything is done.
+
+## 前言
 首先，我想先感谢下[MultiType](https://github.com/drakeet/MultiType)这个开源项目，我的部分灵感来源于此。
 
 因为业务的需要，我们可能会需要在一个列表中展示非常多样式的元素，这样的话，我们会需要写很多的viewholder，给每种元素声明一个viewtype，在adapter中写一长串的判断语句来createviewholder。如果要展示的项目样式非常多，那么我们的adapter会非常臃肿，还需要定义非常多的viewtype。当可能要修改、删除、添加一个新的样式的时候，都需要在adapter中做修改，违反了对修改关闭的原则。
