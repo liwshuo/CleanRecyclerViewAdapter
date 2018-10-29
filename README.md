@@ -2,8 +2,8 @@
 It is easy for you to show many different items in recyclerview。You will not have to write many viewholders in recyclerview adapter, and declare many viewtypes, and try to create and bind them. You only need to write a viewholder and its factory with annotation. Then, everything is done.
 
 ## 前言
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)]
-[![JCenter](https://img.shields.io/badge/%20JCenter%20-1.1.0-5bc0de.svg)]
+![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
+![JCenter](https://img.shields.io/badge/%20JCenter%20-1.1.0-5bc0de.svg)
 
 首先，我想先感谢下[MultiType](https://github.com/drakeet/MultiType)这个开源项目，我的部分灵感来源于此。
 
@@ -278,4 +278,3 @@ marketAdapter.updateData(createMarketData(), null);
 ## 总结
 使用本项目，可以比较方便地从现有的代码进行切换，可以方便地对不同业务类型的列表展示元素进行管理，可以方便地在多个列表中复用ViewHolder，可以方便地增删ViewHolder，减少代码耦合。
 
-#Android/文章
