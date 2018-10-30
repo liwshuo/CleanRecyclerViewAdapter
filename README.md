@@ -9,9 +9,11 @@ It is easy for you to show many different items in recyclerview。You will not h
 
 因为业务的需要，我们可能会需要在一个列表中展示非常多样式的元素，这样的话，我们会需要写很多的viewholder，给每种元素声明一个viewtype，在adapter中写一长串的判断语句来createviewholder。如果要展示的项目样式非常多，那么我们的adapter会非常臃肿，还需要定义非常多的viewtype。当可能要修改、删除、添加一个新的样式的时候，都需要在adapter中做修改，违反了对修改关闭的原则。
 
-项目的目的在于将viewholder和adapter解耦，减轻adapter的负担，让删除、添加viewholder变得简单。
-
-在设计时，考虑到对现有代码的改动成本，目前大多数情况下，只需要让现有的viewHolder改自继承BaseCleanViewHolder，并创建与数据类型一一对应的ViewHolderFactory即可。
+### 优点
+1. ViewHolder和Adapter解耦，ViewHolder的管理分布在多个ViewHolderFactory中， 增删ViewHolder只需要在相应的ViewHolderFactory中进行。
+2. 无需定义繁多的ViewType，无需在Adapter中写很多的判断语句。
+3. 便于ViewHolder的复用，在需要将ViewHolderFactory中包含的ViewHolder展示在多个Adapter中时，只需要将该ViewHolderFactory通过注解生成的ViewHolderFactoryListCreator的静态方法返回的List添加到相应的Adapter中。
+4. 从现有代码切换成本较低，对现有代码影响较小。只需要将现有的ViewHolder改自继承BaseCleanViewHolder，并为每种数据类型增加一个ViewHolderFactory即可。
 
 ## 如何引用
 在项目的build.gradle文件中的dependicies中添加以下依赖。
