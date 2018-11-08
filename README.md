@@ -1,4 +1,4 @@
-# # CleanRecyclerViewAdapter
+# CleanRecyclerViewAdapter
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 ![JCenter](https://img.shields.io/badge/%20JCenter%20-0.1.0-5bc0de.svg)
 
