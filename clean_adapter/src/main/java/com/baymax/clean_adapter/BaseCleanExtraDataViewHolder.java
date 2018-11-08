@@ -16,7 +16,7 @@ public abstract class BaseCleanExtraDataViewHolder<Item, ExtraData> extends Recy
 
     /**
      * 一般情况下请重写本构造函数
-     * 本构造函数可以确保所有的ViewHolder拥有相同的参数，比如单参数ViewGroup，双参数ViewGroup和ExtraData，
+     * 本构造函数可以确保所有的ViewHolder拥有相同的参数，比如单参数ViewGroup
      * 这样可以写一个实现了{@link IViewHolderFactory}的抽象类
      * 实现{@link IViewHolderFactory#create(ViewGroup, Class)}方法，在该方法中使用反射初始化ViewHolder
      * 这样可以减少大量的初始化ViewHolder的代码
