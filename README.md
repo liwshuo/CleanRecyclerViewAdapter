@@ -4,7 +4,7 @@
 
 It is easy for you to show many different items in recyclerview。You will not have to write many viewholders in recyclerview adapter, and declare many viewtypes, and try to create and bind them. You only need to write a viewholder and its factory with annotation. Then, everything is done.
 
-中文()|English()
+[中文](https://github.com/liwshuo/CleanRecyclerViewAdapter/blob/master/README.md)|[English](https://github.com/liwshuo/CleanRecyclerViewAdapter/blob/master/README_EN.md)
 
 ## 前言
 首先，我想先感谢下[MultiType](https://github.com/drakeet/MultiType)这个开源项目，我的部分灵感来源于此。
