@@ -1,6 +1,6 @@
-# CleanRecyclerViewAdapter
+# # CleanRecyclerViewAdapter
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
-![JCenter](https://img.shields.io/badge/%20JCenter%20-0.0.7-5bc0de.svg)
+![JCenter](https://img.shields.io/badge/%20JCenter%20-0.1.0-5bc0de.svg)
 
 It is easy for you to show many different items in recyclerview。You will not have to write many viewholders in recyclerview adapter, and declare many viewtypes, and try to create and bind them. You only need to write a viewholder and its factory with annotation. Then, everything is done.
 
@@ -10,52 +10,68 @@ It is easy for you to show many different items in recyclerview。You will not h
 因为业务的需要，我们可能会需要在一个列表中展示非常多样式的元素，这样的话，我们会需要写很多的viewholder，给每种元素声明一个viewtype，在adapter中写一长串的判断语句来createviewholder。如果要展示的项目样式非常多，那么我们的adapter会非常臃肿，还需要定义非常多的viewtype。当可能要修改、删除、添加一个新的样式的时候，都需要在adapter中做修改，违反了对修改关闭的原则。
 
 ### 优点
-1. ViewHolder和Adapter解耦，ViewHolder的管理分布在多个ViewHolderFactory中， 增删ViewHolder只需要在相应的ViewHolderFactory中进行。
-2. 无需定义繁多的ViewType，无需在Adapter中写很多的判断语句。
+1. 利用注解将ViewHolder和Adapter解耦，ViewHolder的管理分布在多个ViewHolderFactory中， 增删ViewHolder只需要在相应的ViewHolderFactory中进行。
+2. 无需定义繁多的ViewType，无需在Adapter中写很多的判断语句，无需在Activity处写绑定的语句，所有绑定操作在CleanViewHolderGenerateHelper中处理所有的ViewHolderFactory来完成。
 3. 便于ViewHolder的复用，在需要将ViewHolderFactory中包含的ViewHolder展示在多个Adapter中时，只需要将该ViewHolderFactory通过注解生成的ViewHolderFactoryListCreator的静态方法返回的List添加到相应的Adapter中。
-4. 从现有代码切换成本较低，对现有代码影响较小。只需要将现有的ViewHolder改自继承BaseCleanViewHolder，并为每种数据类型增加一个ViewHolderFactory即可。
+4. 从现有代码切换成本较低，对现有代码影响较小。只需要将现有的ViewHolder改自继承BaseCleanViewHolder或者BaseCleanExtraDataViewHolder，并为每种数据类型增加一个ViewHolderFactory即可。
 
 ## 如何引用
 在项目的build.gradle文件中的dependicies中添加以下依赖。
 
 ```groovy
-implementation 'com.baymax.clean_adapter:clean_adapter:0.0.7'
-implementation 'com.baymax.clean_adapter:clean_adapter_annotation:0.0.7'
-annotationProcessor 'com.baymax.clean_adapter:clean_adapter_compiler:0.0.7'
+implementation 'com.baymax.clean_adapter:clean_adapter:0.1.0'
+implementation 'com.baymax.clean_adapter:clean_adapter_annotation:0.1.0'
+annotationProcessor 'com.baymax.clean_adapter:clean_adapter_compiler:0.1.0'
 ```
 
 ## 如何使用
 ### 创建ViewHolder
-所有的ViewHolder都需要继承自BaseCleanViewHolder，并实现onBindViewHolder方法。
+所有的ViewHolder都需要继承自BaseCleanViewHolder或者BaseCleanExtraDataViewHolder并实现onBindViewHolder方法。
+* BaseCleanExtraDataViewHolder，会在onBindViewHolder中传入ExtraData，适用于需要使用外部数据的ViewHolder
+* BaseCleanViewHolder，不会在onBindViewHolder时传入ExtraData，适用于不需要使用外部数据的ViewHolder
 
 ```java
-public class AppleViewHolder extends BaseCleanViewHolder<Fruit> {
+public class AppleViewHolder extends BaseCleanExtraDataViewHolder<Fruit, MarketInfo> {
     private TextView fruitName;
 
-    public AppleViewHolder(ViewGroup parent, MarketInfo marketInfo) {
+    public AppleViewHolder(ViewGroup parent) {
         super(parent, R.layout.layout_apple_viewholder);
         fruitName = findViewById(R.id.name);
     }
 
     @Override
-    public void onBindViewHolder(Fruit fruit) {
+    public void onBindViewHolder(Fruit fruit, MarketInfo marketInfo) {
         fruitName.setText(fruit.name);
     }
 }
 
+
+public class PorkViewHolder extends BaseCleanViewHolder<Meat> {
+    private TextView meatName;
+
+    public PorkViewHolder(ViewGroup parent) {
+        super(parent, R.layout.layout_pork_viewholder);
+        meatName = findViewById(R.id.name);
+    }
+
+    @Override
+    public void onBindViewHolder(Meat meat) {
+        meatName.setText(meat.name);
+    }
+}
 ```
 
-BaseCleanViewHolder有两个构造函数。一般来说，重写带ViewGroup参数的构造函数，便于在ViewHolderFactory的抽象类中通过反射来初始化ViewHolder。
+BaseCleanExtraDataViewHolder有两个构造函数。一般来说，重写带ViewGroup参数的构造函数，便于在ViewHolderFactory的抽象类中通过反射来初始化ViewHolder。
 
 ```java
 /**
  * 一般情况下请重写本构造函数
- * 本构造函数可以确保所有的ViewHolder拥有相同的参数，比如单参数ViewGroup，双参数ViewGroup和ExtraData，
+ * 本构造函数可以确保所有的ViewHolder拥有相同的参数，比如单参数ViewGroup
  * 这样可以写一个实现了{@link IViewHolderFactory}的抽象类
- * 实现{@link IViewHolderFactory#create(ViewGroup, Class, Object)}方法，在该方法中使用反射初始化ViewHolder
+ * 实现{@link IViewHolderFactory#create(ViewGroup, Class)}方法，在该方法中使用反射初始化ViewHolder
  * 这样可以减少大量的初始化ViewHolder的代码
  */
-public BaseCleanViewHolder(ViewGroup parent, @LayoutRes int layoutId) {
+public BaseCleanExtraDataViewHolder(ViewGroup parent, @LayoutRes int layoutId) {
     super(LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false));
 }
 ```
@@ -68,55 +84,51 @@ public BaseCleanViewHolder(ViewGroup parent, @LayoutRes int layoutId) {
  * 如果遇到一个数据结构A包含另外一个数据结构B，而B已经有了自己的ViewHolder的情况下，
  * 可以在A的ViewHolder中使用组合方式引用B的ViewHolder，B的ViewHolder可以利用本构造函数来初始化。
  */
-public BaseCleanViewHolder(View itemView) {
+public BaseCleanExtraDataViewHolder(View itemView) {
     super(itemView);
 }
 ```
 
-BaseCleanViewHolder中还提供了多个便利的方法可以调用。
+BaseCleanExtraDataViewHolder中还提供了多个便利的方法可以调用。
 
 我们可以保证onBindViewHolder传入的参数，就是范型所指定的数据类型，也可以保证这个参数不为空，所以你可以放心地使用。
 
 ### 创建ViewHolderFactory
-ViewHolderFactory需要实现IViewHolderFactory接口。
+ViewHolderFactory需要实现IViewHolderFactory接口或者继承AbstractViewHolderFactory。
 
 ViewHolderFactory用来将数据结构及其对应的ViewHolder进行绑定。如果一个列表中有N种数据结构，那么就应该有N个ViewHolderFactory与其对应。
 
-如果列表中包含了很多ViewHolder需要展示，那么在create方法中需要写很多ViewHolder初始化的代码，很是臃肿。为了避免这种情况，在确保了所有ViewHolder都拥有相同构造函数及参数的情况下，可以写一个抽象类来通过反射创建ViewHolder。
+如果列表中包含了很多ViewHolder需要展示，那么在create方法中需要写很多ViewHolder初始化的代码，很是臃肿。为了避免这种情况，AbstractViewHolderFactory实现了create方法， 通过反射的方式创建ViewHolder的实例，请注意，这里ViewHolder的构造函数有且只有一个ViewGroup。
 
 ```java
-public abstract class AbstractFoodMaterialViewHolderFactory<Item> implements IViewHolderFactory<Item, MarketInfo> {
+public abstract class AbstractViewHolderFactory<Item> implements IViewHolderFactory<Item> {
+
     @Override
-    public BaseCleanViewHolder create(ViewGroup parent, Class viewHolderClass, MarketInfo marketInfo) {
-        BaseCleanViewHolder viewHolder = null;
+    public BaseCleanExtraDataViewHolder create(ViewGroup parent, Class viewHolderClass) {
+        BaseCleanExtraDataViewHolder viewHolder = null;
+        Exception exception = null;
         try {
-            Constructor constructor = viewHolderClass.getConstructor(ViewGroup.class, MarketInfo.class);
-            viewHolder = (BaseCleanViewHolder) constructor.newInstance(parent, marketInfo);
+            Constructor constructor = viewHolderClass.getConstructor(ViewGroup.class);
+            viewHolder = (BaseCleanExtraDataViewHolder) constructor.newInstance(parent);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            exception = e;
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            exception = e;
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            exception = e;
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            exception = e;
         }
-        if (viewHolder == null) {
-            try {
-                Constructor constructor = viewHolderClass.getConstructor(ViewGroup.class);
-                viewHolder = (BaseCleanViewHolder) constructor.newInstance(parent);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
+        if (exception != null && BuildConfig.DEBUG) {
+            IllegalArgumentException argumentException;
+            if (exception instanceof InvocationTargetException) {
+                argumentException = new IllegalArgumentException(((InvocationTargetException) exception).getTargetException());
+                argumentException.setStackTrace(((InvocationTargetException) exception).getTargetException().getStackTrace());
+            } else {
+                argumentException = new IllegalArgumentException(exception);
+                argumentException.setStackTrace(exception.getStackTrace());
             }
-        }
-        if (viewHolder == null && BuildConfig.DEBUG) {
-            throw new IllegalArgumentException(viewHolderClass + "不是标准构造函数参数，请重写ViewHolderFactory的create方法自行初始化");
+            throw argumentException;
         }
         if (viewHolder == null) {
             viewHolder = new BaseCleanViewHolder(parent, R.layout.dummy_view_holder) {
@@ -128,7 +140,6 @@ public abstract class AbstractFoodMaterialViewHolderFactory<Item> implements IVi
         }
         return viewHolder;
     }
-
 }
 ```
 
@@ -136,7 +147,7 @@ public abstract class AbstractFoodMaterialViewHolderFactory<Item> implements IVi
 
 ```java
 @ViewHolderFactory(category = "FoodMaterial")
-public class VegetableViewHolderFactory extends AbstractFoodMaterialViewHolderFactory<Vegetable> {
+public class VegetableViewHolderFactory extends AbstractViewHolderFactory<Vegetable> {
     @Override
     public Class getItemClass() {
         return Vegetable.class;
@@ -153,6 +164,7 @@ public class VegetableViewHolderFactory extends AbstractFoodMaterialViewHolderFa
     public Class getViewHolderClass(Vegetable vegetable) {
         return CabbageViewHolder.class;
     }
+    
 }
 ```
 
@@ -160,7 +172,7 @@ public class VegetableViewHolderFactory extends AbstractFoodMaterialViewHolderFa
 
 ```java
 @ViewHolderFactory(category = "FoodMaterial")
-public class FruitViewHolderFactory extends AbstractFoodMaterialViewHolderFactory<Fruit> {
+public class FruitViewHolderFactory extends AbstractViewHolderFactory<Fruit> {
     @Override
     public Class getItemClass() {
         return Fruit.class;
@@ -182,10 +194,10 @@ public class FruitViewHolderFactory extends AbstractFoodMaterialViewHolderFactor
             case Fruit.ORANGE:
                 return OrangeViewHolder.class;
             default:
-                return CleanViewHolderGenerateHelper.DummyCleanViewHolder.class;
+                return DummyCleanViewHolder.class;
         }
     }
-
+    
 }
 ```
 
@@ -215,13 +227,13 @@ public final class FoodMaterialViewHolderFactoryListCreator {
 在上一步中，我们在编译之后会得到一个或者多个ViewHolderFactoryListCreator，假如这些ViewHolderFactory包含的ViewHolder都想在一个列表中展示，那么可以将这些ViewHolderFactoryListCreator返回的结果合并到一个List并传入ViewHolderGenerateHelper中。为了便于管理，建议为每个Adapter创建一个自己的ViewHolderGenerateHelper。如果后期有新加的category对应的ViewHolder要展示，那么修改这个类即可。
 
 ```java
-public class FoodMaterialViewHolderGenerateHelper implements IViewHolderGenerateHelper<MarketInfo> {
-    private CleanViewHolderGenerateHelper<MarketInfo> cleanViewHolderGenerateHelper;
+public class FoodMaterialViewHolderGenerateHelper implements IViewHolderGenerateHelper {
+    private CleanViewHolderGenerateHelper cleanViewHolderGenerateHelper;
 
     public FoodMaterialViewHolderGenerateHelper() {
         List<Object> foodMaterialList = new ArrayList<>();
         foodMaterialList.addAll(FoodMaterialViewHolderFactoryListCreator.createFactoryList());
-        cleanViewHolderGenerateHelper = new CleanViewHolderGenerateHelper<>(foodMaterialList);
+        cleanViewHolderGenerateHelper = new CleanViewHolderGenerateHelper(foodMaterialList);
     }
 
     @Override
@@ -230,11 +242,10 @@ public class FoodMaterialViewHolderGenerateHelper implements IViewHolderGenerate
     }
 
     @Override
-    public BaseCleanViewHolder createViewHolder(ViewGroup parent, int itemType, MarketInfo marketInfo) {
-        return cleanViewHolderGenerateHelper.createViewHolder(parent, itemType, marketInfo);
+    public BaseCleanExtraDataViewHolder createViewHolder(ViewGroup parent, int itemType) {
+        return cleanViewHolderGenerateHelper.createViewHolder(parent, itemType);
     }
 }
-
 ```
 
 如果有一组ViewHolder需要展示在多个列表中，那么可以很方便的进行复用，只需要将其对应的ViewHolderFactoryListCreator生成的List添加到不同的Adapter中就可以实现了。
@@ -273,3 +284,5 @@ marketAdapter.updateData(createMarketData(), null);
 
 ## 总结
 使用本项目，可以比较方便地从现有的代码进行切换，可以方便地对不同业务类型的列表展示元素进行管理，可以方便地在多个列表中复用ViewHolder，可以方便地增删ViewHolder，减少代码耦合。
+
+#Android/文章
