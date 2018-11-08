@@ -1,6 +1,12 @@
 package com.baymax.cleanrecyclerviewadapter;
 
+import android.support.annotation.NonNull;
+import android.util.Log;
+import android.view.ViewGroup;
+
 import com.baymax.clean_adapter.BaseCleanAdapter;
+import com.baymax.clean_adapter.BaseCleanExtraDataViewHolder;
+import com.baymax.clean_adapter.BaseCleanViewHolder;
 import com.baymax.clean_adapter.IViewHolderGenerateHelper;
 
 /**
@@ -8,7 +14,7 @@ import com.baymax.clean_adapter.IViewHolderGenerateHelper;
  */
 public class MarketAdapter extends BaseCleanAdapter<Object, MarketInfo> {
 
-    public MarketAdapter(IViewHolderGenerateHelper<MarketInfo> viewHolderGenerateHelper, MarketInfo marketInfo) {
+    public MarketAdapter(IViewHolderGenerateHelper viewHolderGenerateHelper, MarketInfo marketInfo) {
         super(viewHolderGenerateHelper, marketInfo);
     }
 

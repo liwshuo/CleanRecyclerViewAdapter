@@ -8,26 +8,26 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseCleanAdapter<Item, ExtraData> extends RecyclerView.Adapter<BaseCleanViewHolder> {
+public abstract class BaseCleanAdapter<Item, ExtraData> extends RecyclerView.Adapter<BaseCleanExtraDataViewHolder> {
 
-    private IViewHolderGenerateHelper<ExtraData> viewHolderGenerateHelper;
+    private IViewHolderGenerateHelper viewHolderGenerateHelper;
     private ExtraData extraData;
     protected final List<Item> dataList = new ArrayList<>();
 
-    public BaseCleanAdapter(IViewHolderGenerateHelper<ExtraData> viewHolderGenerateHelper, ExtraData extraData) {
+    public BaseCleanAdapter(IViewHolderGenerateHelper viewHolderGenerateHelper, ExtraData extraData) {
         this.viewHolderGenerateHelper = viewHolderGenerateHelper;
         this.extraData = extraData;
     }
 
     @NonNull
     @Override
-    public BaseCleanViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return viewHolderGenerateHelper.createViewHolder(parent, viewType, extraData);
+    public BaseCleanExtraDataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return viewHolderGenerateHelper.createViewHolder(parent, viewType);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseCleanViewHolder holder, int position) {
-        holder.onBindViewHolder(dataList.get(position));
+    public void onBindViewHolder(@NonNull BaseCleanExtraDataViewHolder holder, int position) {
+        holder.onBindViewHolder(dataList.get(position), extraData);
     }
 
     @Override
@@ -41,17 +41,17 @@ public abstract class BaseCleanAdapter<Item, ExtraData> extends RecyclerView.Ada
     }
 
     @Override
-    public void onViewAttachedToWindow(@NonNull BaseCleanViewHolder holder) {
+    public void onViewAttachedToWindow(@NonNull BaseCleanExtraDataViewHolder holder) {
         holder.onAttach();
     }
 
     @Override
-    public void onViewDetachedFromWindow(@NonNull BaseCleanViewHolder holder) {
+    public void onViewDetachedFromWindow(@NonNull BaseCleanExtraDataViewHolder holder) {
         holder.onDetach();
     }
 
     @Override
-    public void onViewRecycled(@NonNull BaseCleanViewHolder holder) {
+    public void onViewRecycled(@NonNull BaseCleanExtraDataViewHolder holder) {
         holder.onRecycled();
     }
 

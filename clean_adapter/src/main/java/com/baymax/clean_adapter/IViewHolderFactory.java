@@ -17,7 +17,7 @@ import android.view.ViewGroup;
  * {@link IViewHolderFactory#getViewHolderClass(Item)}
  * 根据条件返回ViewHolder
  * <p>
- * {@link IViewHolderFactory#create(ViewGroup, Class, ExtraData)}
+ * {@link IViewHolderFactory#create(ViewGroup, Class)}
  * 返回和传入ViewHolderClass一致的ViewHolder的实例
  * 这里为什么要用ViewHolder的class来作为判断条件来生成ViewHolder的实例呢
  * 原因是在createViewHolder的时候，只有ItemType，而ItemType是在{@link CleanViewHolderGenerateHelper}中生成的
@@ -30,7 +30,7 @@ import android.view.ViewGroup;
  *
  * @param <Item>
  */
-public interface IViewHolderFactory<Item, ExtraData> {
+public interface IViewHolderFactory<Item> {
 
     Class getItemClass();
 
@@ -38,6 +38,6 @@ public interface IViewHolderFactory<Item, ExtraData> {
 
     Class getViewHolderClass(Item item);
 
-    BaseCleanViewHolder create(ViewGroup parent, Class viewHolderClass, ExtraData extraData);
+    BaseCleanExtraDataViewHolder create(ViewGroup parent, Class viewHolderClass);
 }
 

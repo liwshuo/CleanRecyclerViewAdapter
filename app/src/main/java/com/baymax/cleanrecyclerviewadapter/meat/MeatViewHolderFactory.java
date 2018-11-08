@@ -1,19 +1,14 @@
 package com.baymax.cleanrecyclerviewadapter.meat;
 
-import android.view.ViewGroup;
-
-import com.baymax.clean_adapter.BaseCleanViewHolder;
-import com.baymax.clean_adapter.CleanViewHolderGenerateHelper;
+import com.baymax.clean_adapter.AbstractViewHolderFactory;
 import com.baymax.clean_adapter.DummyCleanViewHolder;
 import com.baymax.clean_adapter_annotation.ViewHolderFactory;
-import com.baymax.cleanrecyclerviewadapter.AbstractFoodMaterialViewHolderFactory;
-import com.baymax.cleanrecyclerviewadapter.MarketInfo;
 
 /**
  * Created by baymax on 27,十月,2018
  */
 @ViewHolderFactory(category = "FoodMaterial")
-public class MeatViewHolderFactory extends AbstractFoodMaterialViewHolderFactory<Meat> {
+public class MeatViewHolderFactory extends AbstractViewHolderFactory<Meat> {
     @Override
     public Class getItemClass() {
         return Meat.class;
@@ -40,7 +35,7 @@ public class MeatViewHolderFactory extends AbstractFoodMaterialViewHolderFactory
     }
 
 //    @Override
-//    public BaseCleanViewHolder create(ViewGroup parent, Class viewHolderClass, MarketInfo marketInfo) {
+//    public BaseCleanExtraDataViewHolder create(ViewGroup parent, Class viewHolderClass, MarketInfo marketInfo) {
 //        if (viewHolderClass == BeefViewHolder.class) {
 //            return new BeefViewHolder(parent);
 //        } else if (viewHolderClass == PorkViewHolder.class) {

@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ViewGroup;
 
+import com.baymax.clean_adapter.BaseCleanExtraDataViewHolder;
 import com.baymax.clean_adapter.BaseCleanViewHolder;
 import com.baymax.clean_adapter.DummyCleanViewHolder;
 import com.baymax.cleanrecyclerviewadapter.area.FoodMaterialArea;
@@ -39,10 +40,10 @@ public class OldMarketAdapter extends RecyclerView.Adapter {
         RecyclerView.ViewHolder viewHolder;
         switch (i) {
             case 0:
-                viewHolder = new AppleViewHolder(viewGroup, marketInfo);
+                viewHolder = new AppleViewHolder(viewGroup);
                 break;
             case 1:
-                viewHolder = new OrangeViewHolder(viewGroup, marketInfo);
+                viewHolder = new OrangeViewHolder(viewGroup);
                 break;
             case 2:
                 viewHolder = new BeefViewHolder(viewGroup);
@@ -51,7 +52,7 @@ public class OldMarketAdapter extends RecyclerView.Adapter {
                 viewHolder = new PorkViewHolder(viewGroup);
                 break;
             case 4:
-                viewHolder = new CabbageViewHolder(viewGroup, marketInfo);
+                viewHolder = new CabbageViewHolder(viewGroup);
                 break;
             case 5:
                 viewHolder = new FoodMaterialAreaViewHolder(viewGroup);
@@ -64,7 +65,7 @@ public class OldMarketAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        ((BaseCleanViewHolder) viewHolder).onBindViewHolder(data.get(i));
+        ((BaseCleanExtraDataViewHolder) viewHolder).onBindViewHolder(data.get(i), marketInfo);
     }
 
     @Override

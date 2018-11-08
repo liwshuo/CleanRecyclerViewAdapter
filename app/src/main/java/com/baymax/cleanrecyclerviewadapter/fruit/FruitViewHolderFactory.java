@@ -1,19 +1,14 @@
 package com.baymax.cleanrecyclerviewadapter.fruit;
 
-import android.view.ViewGroup;
-
-import com.baymax.clean_adapter.BaseCleanViewHolder;
-import com.baymax.clean_adapter.CleanViewHolderGenerateHelper;
+import com.baymax.clean_adapter.AbstractViewHolderFactory;
 import com.baymax.clean_adapter.DummyCleanViewHolder;
 import com.baymax.clean_adapter_annotation.ViewHolderFactory;
-import com.baymax.cleanrecyclerviewadapter.AbstractFoodMaterialViewHolderFactory;
-import com.baymax.cleanrecyclerviewadapter.MarketInfo;
 
 /**
  * Created by baymax on 27,十月,2018
  */
 @ViewHolderFactory(category = "FoodMaterial")
-public class FruitViewHolderFactory extends AbstractFoodMaterialViewHolderFactory<Fruit> {
+public class FruitViewHolderFactory extends AbstractViewHolderFactory<Fruit> {
     @Override
     public Class getItemClass() {
         return Fruit.class;
@@ -40,12 +35,18 @@ public class FruitViewHolderFactory extends AbstractFoodMaterialViewHolderFactor
     }
 
 //    @Override
-//    public BaseCleanViewHolder create(ViewGroup parent, Class viewHolderClass, MarketInfo marketInfo) {
+//    public BaseCleanExtraDataViewHolder create(ViewGroup parent, Class viewHolderClass, MarketInfo marketInfo) {
+//        BaseCleanViewHolder viewHolder;
 //        if (viewHolderClass == AppleViewHolder.class) {
-//            return new AppleViewHolder(parent, marketInfo);
+//            viewHolder = new AppleViewHolder(parent, marketInfo);
 //        } else if (viewHolderClass == OrangeViewHolder.class) {
-//            return new OrangeViewHolder(parent, marketInfo);
+//            viewHolder = new OrangeViewHolder(parent, marketInfo);
+//        } else {
+//            viewHolder = new DummyCleanViewHolder(parent);
 //        }
-//        return new DummyCleanViewHolder(parent);
+//
+//
+//        return viewHolder;
 //    }
+
 }

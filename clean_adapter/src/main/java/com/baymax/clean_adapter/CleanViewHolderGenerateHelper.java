@@ -17,7 +17,7 @@ import java.util.Map;
  * 为了减少Adapter中的代码，减少代码的耦合性，将各自的ViewHolder的创建放在相应的{@link IViewHolderFactory}中，分散管理。
  * 由于RecyclerView中需要通过itemType来生成不同的ViewHolder，本类会负责itemType的生成以及找到相应的factory来创建ViewHolder
  * <p>
- * 所有{@link ViewHolderFactory}注解的类会
+ * 所有{ViewHolderFactory}注解的类会
  * 通过注解处理器将相同类型category的ViewHolderFactory的实例放入到同一个List中，
  * 在初始化本类的时候通过构造函数将该List传入。
  * <p>
@@ -37,7 +37,7 @@ import java.util.Map;
  * 然后调用ViewHolderFactory的create方法，传入ViewHolderClass，创建对应的ViewHolder实例。
  * 这样就可以在{@link android.support.v7.widget.RecyclerView.Adapter#onCreateViewHolder(ViewGroup, int)}方法中通过ItemType获取其对应的ViewHolder实例
  */
-public class CleanViewHolderGenerateHelper<ExtraData> implements IViewHolderGenerateHelper<ExtraData> {
+public class CleanViewHolderGenerateHelper implements IViewHolderGenerateHelper {
     private Map<Class, IViewHolderFactory> itemClassViewHolderFactoryMap = new HashMap<>();
     private Map<Integer, IViewHolderFactory> itemTypeViewHolderFactoryMap = new HashMap<>();
     private Map<Class, Integer> viewHolderClassItemTypeMap = new HashMap<>();
@@ -94,14 +94,11 @@ public class CleanViewHolderGenerateHelper<ExtraData> implements IViewHolderGene
     }
 
     @Override
-    public BaseCleanViewHolder createViewHolder(ViewGroup parent, int itemType, ExtraData extraData) {
+    public BaseCleanExtraDataViewHolder createViewHolder(ViewGroup parent, int itemType) {
         Class viewHolderClass = itemTypeViewHolderClassMap.get(itemType);
         if (viewHolderClass == null) {
             return new DummyCleanViewHolder(parent);
         }
-        return itemTypeViewHolderFactoryMap.get(itemType).create(parent, viewHolderClass, extraData);
+        return itemTypeViewHolderFactoryMap.get(itemType).create(parent, viewHolderClass);
     }
-
-
-
 }
